@@ -1,0 +1,56 @@
+<odoo>
+
+    <record id="view_school_student_tree" model="ir.ui.view">
+        <field name="name">school.student.tree</field>
+        <field name="model">school.student</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="roll_number"/>
+                <field name="date_of_birth"/>
+                <field name="section"/>
+                <field name="parent_contact"/>
+                <field name="class_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_school_student_form" model="ir.ui.view">
+        <field name="name">school.student.form</field>
+        <field name="model">school.student</field>
+        <field name="arch" type="xml">
+            <form string="Student">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_exam_results" type="object" class="oe_stat_button" icon="fa-graduation-cap">
+                            <field name="exam_result_count" widget="statinfo" string="Exam Results"/>
+                        </button>
+                    </div>
+                    <group>
+                        <field name="name"/>
+                        <field name="roll_number"/>
+                        <field name="date_of_birth"/>
+                    </group>
+                    <group>
+                        <field name="class_id"/>
+                        <field name="parent_contact"/>
+                        <field name="section"/>
+                        <field name="admission_id" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_school_student" model="ir.actions.act_window">
+        <field name="name">Students</field>
+        <field name="res_model">school.student</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No student records found. Click to create a new student record.
+            </p>
+        </field>
+    </record>
+
+</odoo>

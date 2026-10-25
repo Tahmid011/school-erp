@@ -1,0 +1,78 @@
+<odoo>
+    <menuitem id="menu_school_root" 
+        name="SMS"
+        groups="School_Management_System.group_school_admin,School_Management_System.group_school_teacher"
+    />
+    <menuitem id="menu_school_dashboard"
+        name="Dashboard"
+        parent="menu_school_root"
+        action="action_school_dashboard"
+        sequence="0"
+    />
+    <menuitem id="menu_admission" 
+        name="Admission" 
+        parent="menu_school_root"
+        action="action_student_admission"
+        sequence="1"
+    />
+    <menuitem id="menu_school_student" 
+        name="Students" 
+        parent="menu_school_root"
+        action="action_school_student"
+        sequence="2"
+    />
+    <menuitem id="menu_class" 
+        name="Classes" 
+        parent="menu_school_root"
+        action="action_student_class"
+    />
+    <menuitem id="menu_school_teacher" 
+        name="Teachers" 
+        parent="menu_school_root"
+        action="action_school_teacher"
+    />
+    <menuitem id="menu_school_exam_root"
+        name="Exams"
+        parent="menu_school_root"
+        sequence="6"
+    />
+    <menuitem id="menu_school_exam"
+        name="Exams"
+        parent="menu_school_exam_root"
+        action="action_school_exam"
+        sequence="1"
+    />
+    <menuitem id="menu_school_exam_by_class"
+        name="Results by Class"
+        parent="menu_school_exam_root"
+        action="action_school_exam_by_class"
+        sequence="2"
+    />
+    <menuitem id="menu_school_exam_result"
+        name="All Results"
+        parent="menu_school_exam_root"
+        action="action_school_exam_result"
+        sequence="3"
+        groups="School_Management_System.group_school_admin"
+    />
+    <menuitem id="menu_school_config"
+        name="Configuration" 
+        parent="menu_school_root"
+    />
+    <menuitem id="menu_school_subject" 
+        name="Subjects" 
+        parent="menu_school_config"
+        action="action_school_subject"
+    />
+    <menuitem id="menu_school_section" 
+        name="Sections" 
+        parent="menu_school_config"
+        action="action_school_section"
+    />
+    <menuitem id="menu_school_exam_grade"
+        name="Grading Scale"
+        parent="menu_school_config"
+        action="action_school_exam_grade"
+        groups="School_Management_System.group_school_admin"
+    />
+</odoo>

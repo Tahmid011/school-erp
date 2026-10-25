@@ -1,0 +1,94 @@
+<odoo>
+    <record id="view_student_admission_tree" model="ir.ui.view">
+        <field name="name">student.admission.tree</field>
+        <field name="model">student.admission</field>
+        <field name="arch" type="xml">
+            <tree string="Admission">
+                <field name="name"/>
+                <field name="roll_number"/>
+                <field name="date_of_birth"/>
+                <field name="class_id"/>
+                <field name="section"/>
+                <field name="parent_contact"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_student_admission_form" model="ir.ui.view">
+        <field name="name">student.admission.form</field>
+        <field name="model">student.admission</field>
+        <field name="arch" type="xml">
+            <form string="Admission">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,under review,approved,rejected,admitted"/>
+                    <button name="action_submit" type="object" string="Submit" invisible="state != 'draft'" class="oe_highlight"/>
+                    <button name="action_under_review" type="object" string="Under Review" invisible="state != 'submitted'" class="oe_highlight"/>
+                    <button name="action_approve" type="object" string="Approve" invisible="state != 'under review'" class="oe_highlight"/>
+                    <button name="action_reject" type="object" string="Reject" invisible="state != 'under review'" class="btn-secondary"/>
+                    <button name="action_admit" type="object" string="Admit" invisible="state != 'approved'" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="roll_number"/>
+                            <field name="date_of_birth"/>
+                        </group>
+                        <group>
+                            <field name="class_id"/>
+                            <field name="section"/>
+                            <field name="parent_contact"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups= "base.group_user"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_student_admission_search" model="ir.ui.view">
+        <field name="name">student.admission.search</field>
+        <field name="model">student.admission</field>
+        <field name="arch" type="xml">
+            <search string="Admission Search">
+                <field name="name"/>
+                <field name="roll_number"/>
+                <field name="date_of_birth"/>
+                <field name="class_id"/>
+                <field name="section"/>
+                <field name="parent_contact"/>
+                <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Submitted" name="submitted" domain="[('state','=','submitted')]"/>
+                <separator/>
+                <filter string="Under Review" name="under_review" domain="[('state','=','under review')]"/>
+                <filter string="Approved" name="approved" domain="[('state','=','approved')]"/>
+                <separator/>
+                <filter string="Rejected" name="rejected" domain="[('state','=','rejected')]"/>
+                <filter string="Admitted" name="admitted" domain="[('state','=','admitted')]"/> 
+                <group expand="1" string="Group By">
+                    <filter string="Class" name="class" context="{'group_by':'class_id'}"/>
+                    <filter string="Section" name="section" context="{'group_by':'section'}"/>
+                </group>
+                <searchpanel>
+                    <field name="class_id" string="Class" enable_counters="1"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_student_admission" model="ir.actions.act_window">
+        <field name="name">Admission</field>
+        <field name="res_model">student.admission</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No admission records found. Click to create a new admission record.
+            </p>
+        </field>
+    </record>
+
+</odoo>

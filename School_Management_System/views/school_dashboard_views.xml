@@ -1,0 +1,130 @@
+<odoo>
+    <record id="view_school_dashboard_form" model="ir.ui.view">
+        <field name="name">school.dashboard.form</field>
+        <field name="model">school.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="School Dashboard" create="false" delete="false" class="o_school_dashboard_form">
+                <header>
+                    <button name="action_refresh" type="object" string="Refresh" class="oe_highlight"/>
+                </header>
+                <sheet class="o_school_dashboard_sheet">
+                    <div class="o_school_dashboard">
+                        <section class="o_school_dashboard_hero">
+                            <div>
+                                <span class="o_school_dashboard_eyebrow">Academic Overview</span>
+                                <h1>School Management Dashboard</h1>
+                                <p>Monitor admissions, capacity, students, teachers, classes, and subjects from one workspace.</p>
+                            </div>
+                            <button name="action_refresh" type="object" class="btn btn-light o_school_dashboard_refresh">
+                                <i class="fa fa-refresh"/>
+                                <span>Refresh Metrics</span>
+                            </button>
+                        </section>
+
+                        <section class="o_school_dashboard_cards">
+                            <button name="action_view_students" type="object" class="o_school_metric_card o_school_metric_primary">
+                                <span class="o_school_metric_icon"><i class="fa fa-users"/></span>
+                                <span class="o_school_metric_label">Students</span>
+                                <strong><field name="total_students"/></strong>
+                                <small>Enrolled student records</small>
+                            </button>
+                            <button name="action_view_teachers" type="object" class="o_school_metric_card">
+                                <span class="o_school_metric_icon"><i class="fa fa-user"/></span>
+                                <span class="o_school_metric_label">Teachers</span>
+                                <strong><field name="total_teachers"/></strong>
+                                <small>Active faculty members</small>
+                            </button>
+                            <button name="action_view_classes" type="object" class="o_school_metric_card">
+                                <span class="o_school_metric_icon"><i class="fa fa-building"/></span>
+                                <span class="o_school_metric_label">Classes</span>
+                                <strong><field name="total_classes"/></strong>
+                                <small>Configured class groups</small>
+                            </button>
+                            <button name="action_view_subjects" type="object" class="o_school_metric_card">
+                                <span class="o_school_metric_icon"><i class="fa fa-book"/></span>
+                                <span class="o_school_metric_label">Subjects</span>
+                                <strong><field name="total_subjects"/></strong>
+                                <small>Available curriculum subjects</small>
+                            </button>
+                        </section>
+
+                        <section class="o_school_dashboard_grid">
+                            <div class="o_school_glass_panel o_school_capacity_panel">
+                                <div class="o_school_panel_header">
+                                    <div>
+                                        <span class="o_school_dashboard_eyebrow">Seat Capacity</span>
+                                        <h2>Campus Availability</h2>
+                                    </div>
+                                    <span class="o_school_panel_badge"><field name="seat_usage_percent" widget="percentage"/></span>
+                                </div>
+                                <div class="o_school_capacity_stats">
+                                    <div>
+                                        <span>Total Seats</span>
+                                        <strong><field name="total_seats"/></strong>
+                                    </div>
+                                    <div>
+                                        <span>Occupied</span>
+                                        <strong><field name="occupied_seats"/></strong>
+                                    </div>
+                                    <div>
+                                        <span>Available</span>
+                                        <strong><field name="available_seats"/></strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="o_school_glass_panel">
+                                <div class="o_school_panel_header">
+                                    <div>
+                                        <span class="o_school_dashboard_eyebrow">Admissions</span>
+                                        <h2>Application Pipeline</h2>
+                                    </div>
+                                </div>
+                                <div class="o_school_admission_list">
+                                    <button name="action_view_admission_draft" type="object" class="o_school_status_row">
+                                        <span class="o_school_status_dot o_school_status_draft"/>
+                                        <span>Draft</span>
+                                        <strong><field name="admission_draft"/></strong>
+                                    </button>
+                                    <button name="action_view_admission_submitted" type="object" class="o_school_status_row">
+                                        <span class="o_school_status_dot o_school_status_submitted"/>
+                                        <span>Submitted</span>
+                                        <strong><field name="admission_submitted"/></strong>
+                                    </button>
+                                    <button name="action_view_admission_under_review" type="object" class="o_school_status_row">
+                                        <span class="o_school_status_dot o_school_status_review"/>
+                                        <span>Under Review</span>
+                                        <strong><field name="admission_under_review"/></strong>
+                                    </button>
+                                    <button name="action_view_admission_approved" type="object" class="o_school_status_row">
+                                        <span class="o_school_status_dot o_school_status_approved"/>
+                                        <span>Approved</span>
+                                        <strong><field name="admission_approved"/></strong>
+                                    </button>
+                                    <button name="action_view_admission_admitted" type="object" class="o_school_status_row">
+                                        <span class="o_school_status_dot o_school_status_admitted"/>
+                                        <span>Admitted</span>
+                                        <strong><field name="admission_admitted"/></strong>
+                                    </button>
+                                    <button name="action_view_admission_rejected" type="object" class="o_school_status_row">
+                                        <span class="o_school_status_dot o_school_status_rejected"/>
+                                        <span>Rejected</span>
+                                        <strong><field name="admission_rejected"/></strong>
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_school_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">school.dashboard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,64 @@
+<odoo>
+    <data noupdate="0">
+        <record id="module_category_school" model="ir.module.category">
+                <field name="name">School</field>
+                <field name="sequence">1</field>
+        </record>
+        <record id="group_school_admin" model="res.groups">
+            <field name="name">Admin</field>
+            <field name="category_id" ref="School_Management_System.module_category_school"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">This user will have access to all school management features</field>
+        </record>
+
+        <record id="group_school_teacher" model="res.groups">
+            <field name="name">Teacher</field>
+            <field name="category_id" ref="School_Management_System.module_category_school"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">This user will have access to teacher-specific features</field>
+        </record>
+
+        <record id="school_admin_rule" model="ir.rule">
+            <field name="name">Admin: view all records</field>
+            <field name="model_id" ref="model_school_student"/>
+            <field name="groups" eval="[Command.set([ref('School_Management_System.group_school_admin')])]"/>
+            <field name="domain_force">[]</field>
+        </record>
+
+        <record id="school_teacher_rule" model="ir.rule">
+            <field name="name">Teacher: view own records</field>
+            <field name="model_id" ref="model_school_student"/>
+            <field name="groups" eval="[Command.set([ref('School_Management_System.group_school_teacher')])]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+
+        <record id="school_exam_admin_rule" model="ir.rule">
+            <field name="name">Exam Admin: view all exams</field>
+            <field name="model_id" ref="model_school_exam"/>
+            <field name="groups" eval="[Command.set([ref('School_Management_System.group_school_admin')])]"/>
+            <field name="domain_force">[]</field>
+        </record>
+
+        <record id="school_exam_teacher_rule" model="ir.rule">
+            <field name="name">Exam Teacher: view own exams only</field>
+            <field name="model_id" ref="model_school_exam"/>
+            <field name="groups" eval="[Command.set([ref('School_Management_System.group_school_teacher')])]"/>
+            <field name="domain_force">[('teacher_id.user_id', '=', user.id)]</field>
+        </record>
+
+        <record id="school_exam_result_admin_rule" model="ir.rule">
+            <field name="name">Exam Result Admin: view all results</field>
+            <field name="model_id" ref="model_school_exam_result"/>
+            <field name="groups" eval="[Command.set([ref('School_Management_System.group_school_admin')])]"/>
+            <field name="domain_force">[]</field>
+        </record>
+
+        <record id="school_exam_result_teacher_rule" model="ir.rule">
+            <field name="name">Exam Result Teacher: view own exam results only</field>
+            <field name="model_id" ref="model_school_exam_result"/>
+            <field name="groups" eval="[Command.set([ref('School_Management_System.group_school_teacher')])]"/>
+            <field name="domain_force">[('exam_id.teacher_id.user_id', '=', user.id)]</field>
+        </record>
+
+    </data>
+</odoo> 

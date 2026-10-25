@@ -1,0 +1,30 @@
+{
+    'name': 'School Management System',
+    'version': '1.0',
+    'summary': 'Basic School Management System',
+    'author': 'Tahmidul Biswas',
+    'category': 'Services',
+    'depends': ['base','mail', 'web'],
+    'data': [
+        'security/security.xml',
+        'security/ir.model.access.csv',
+        'data/school_exam_data.xml',
+        'report/school_exam_marksheet_report.xml',
+        'views/student_class_views.xml',
+        'views/admission_views.xml',
+        'views/school_student_views.xml',
+        'views/school_subject_views.xml',
+        'views/school_section_views.xml',
+        'views/school_teacher_views.xml',
+        'views/school_exam_views.xml',
+        'views/school_dashboard_views.xml',
+        'views/menu.xml',
+    ],
+    'assets': {
+        'web.assets_backend': [
+            'School_Management_System/static/src/scss/school_dashboard.scss',
+        ],
+    },
+    'installable': True,
+    'application': True,
+}

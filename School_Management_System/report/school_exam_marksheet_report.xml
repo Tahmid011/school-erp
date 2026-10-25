@@ -1,0 +1,94 @@
+<odoo>
+    <data>
+
+        <template id="report_exam_marksheet_document">
+            <t t-call="web.internal_layout">
+                <div class="page">
+                    <div class="text-center mb-4">
+                        <h2>Exam Marksheet</h2>
+                        <h4 t-if="o.exam_id.exam_type"><span t-field="o.exam_id.name"/></h4>
+                    </div>
+
+                    <table class="table table-sm" style="width:100%;">
+                        <tr>
+                            <td style="width:50%;"><strong>Student:</strong> <span t-field="o.student_id.name"/></td>
+                            <td><strong>Roll No.:</strong> <span t-field="o.roll_number"/></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Class:</strong> <span t-field="o.class_id.name"/> <span t-field="o.class_id.section"/></td>
+                            <td><strong>Subject:</strong> <span t-field="o.subject_id.name"/></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Exam Date:</strong> <span t-field="o.exam_id.exam_date"/></td>
+                            <td><strong>Exam Type:</strong> <span t-field="o.exam_id.exam_type"/></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Teacher:</strong> <span t-field="o.exam_id.teacher_id.name"/></td>
+                            <td></td>
+                        </tr>
+                    </table>
+
+                    <table class="table table-bordered mt-4" style="width:100%;">
+                        <thead>
+                            <tr class="text-center">
+                                <th>Total Marks</th>
+                                <th>Marks Obtained</th>
+                                <th>Percentage</th>
+                                <th>Grade</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="text-center" t-if="not o.is_absent">
+                                <td><span t-field="o.total_marks"/></td>
+                                <td><span t-field="o.marks_obtained"/></td>
+                                <td><span t-field="o.percentage"/> %</td>
+                                <td><span t-field="o.grade"/></td>
+                                <td><span t-field="o.result_status"/></td>
+                            </tr>
+                            <tr class="text-center" t-if="o.is_absent">
+                                <td><span t-field="o.total_marks"/></td>
+                                <td colspan="4">ABSENT</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p t-if="o.remarks">
+                        <strong>Remarks:</strong> <span t-field="o.remarks"/>
+                    </p>
+
+                    <div class="row mt-5" style="margin-top:60px;">
+                        <div class="col-6 text-center">
+                            <p>_________________________</p>
+                            <p>Class Teacher</p>
+                        </div>
+                        <div class="col-6 text-center">
+                            <p>_________________________</p>
+                            <p>Principal</p>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="report_exam_marksheet">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="School_Management_System.report_exam_marksheet_document"/>
+                </t>
+            </t>
+        </template>
+
+        <record id="action_report_exam_marksheet" model="ir.actions.report">
+            <field name="name">Exam Marksheet</field>
+            <field name="model">school.exam.result</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">School_Management_System.report_exam_marksheet</field>
+            <field name="report_file">School_Management_System.report_exam_marksheet</field>
+            <field name="print_report_name">'Marksheet - %s' % (object.student_id.name)</field>
+            <field name="binding_model_id" ref="model_school_exam_result"/>
+            <field name="binding_type">report</field>
+        </record>
+
+    </data>
+</odoo>

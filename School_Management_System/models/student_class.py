@@ -1,0 +1,62 @@
+import string
+
+from odoo import api, models, fields
+from odoo.exceptions import ValidationError
+
+class StudentClass(models.Model):
+    _name = 'student.class'
+    _description = 'Student Class'
+    _rec_name = 'name'
+
+    reference_code = fields.Char(string="Reference Code", default='New', readonly=True)
+    name = fields.Char(string="Class Name", required=True)
+    section = fields.Char(string="Section", required=True)
+    #section_id = fields.Many2one('school.section', string="Section", required=True)
+    total_seat = fields.Integer(string="Total Seat", required=True)
+    total_students = fields.Integer(string="Total Students", compute='_compute_total_students', store=True)
+    available_seat = fields.Integer(string="Available Seat", compute='_compute_available_seat', store=True)
+
+    student_ids = fields.One2many('student.admission', 'class_id', string="Students")
+
+    exam_ids = fields.One2many('school.exam', 'class_id', string="Exams")  # adjust model/field names
+    exam_count = fields.Integer(string="Exams", compute='_compute_exam_count')
+
+    @api.depends('exam_ids')
+    def _compute_exam_count(self):
+        for rec in self:
+            rec.exam_count = len(rec.exam_ids)
+
+    def action_view_exams(self):
+        self.ensure_one()
+        return {
+            'name': 'Exams',
+            'type': 'ir.actions.act_window',
+            'res_model': 'school.exam',  # adjust to your actual exam model's technical name
+            'view_mode': 'list,form',
+            'domain': [('class_id', '=', self.id)],
+            'context': {'default_class_id': self.id},
+        }
+
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('reference_code', 'New') == 'New':
+                vals['reference_code'] = self.env['ir.sequence'].next_by_code('student.class') or 'New'
+        return super().create(vals_list)
+    
+    @api.depends('name', 'section')
+    def _compute_display_name(self):
+        for rec in self:
+            rec.display_name = f"[{rec.section or ''}] {rec.name or ''}"
+    
+    @api.depends('total_seat', 'total_students')
+    def _compute_available_seat(self):
+        for rec in self:
+            rec.available_seat = rec.total_seat - rec.total_students
+
+    @api.depends('student_ids.state')
+    def _compute_total_students(self):
+        for rec in self:
+            rec.total_students = len(rec.student_ids.filtered(lambda s: s.state == 'admitted'))
+

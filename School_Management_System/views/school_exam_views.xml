@@ -1,0 +1,269 @@
+<odoo>
+
+    <record id="view_school_exam_tree" model="ir.ui.view">
+        <field name="name">school.exam.tree</field>
+        <field name="model">school.exam</field>
+        <field name="arch" type="xml">
+            <tree string="Exams" decoration-muted="state == 'cancelled'">
+                <field name="exam_code"/>
+                <field name="name"/>
+                <field name="exam_type"/>
+                <field name="subject_id"/>
+                <field name="class_id"/>
+                <field name="teacher_id"/>
+                <field name="exam_date"/>
+                <field name="total_marks"/>
+                <field name="average_marks"/>
+                <field name="pass_count"/>
+                <field name="fail_count"/>
+                <field name="state" widget="badge" decoration-success="state == 'published'"
+                       decoration-info="state == 'in_progress'" decoration-danger="state == 'cancelled'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_school_exam_form" model="ir.ui.view">
+        <field name="name">school.exam.form</field>
+        <field name="model">school.exam</field>
+        <field name="arch" type="xml">
+            <form string="Exam">
+                <header>
+                    <button name="action_print_all_marksheets" type="object" string="Print All Marksheets"
+                            invisible="state == 'draft'"/>
+                    <button name="action_start" type="object" string="Start"
+                            invisible="state != 'draft'" class="oe_highlight"/>
+                    <button name="action_publish" type="object" string="Publish Results"
+                            invisible="state != 'in_progress'" class="oe_highlight"/>
+                    <button name="action_reset_to_draft" type="object" string="Reset to Draft"
+                            invisible="state not in ('in_progress', 'published', 'cancelled')"
+                            groups="School_Management_System.group_school_admin"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state in ('cancelled', 'published')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,published"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_results" type="object" class="oe_stat_button" icon="fa-list-ol">
+                            <field name="student_count" widget="statinfo" string="Students"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="exam_code"/>
+                            <field name="name"/>
+                            <field name="exam_type"/>
+                            <field name="subject_id"/>
+                            <field name="class_id" readonly="1"/>
+                            <field name="teacher_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="exam_date"/>
+                            <field name="total_marks"/>
+                            <field name="passing_marks"/>
+                        </group>
+                    </group>
+                    <group string="Result Summary" invisible="not result_ids">
+                        <group>
+                            <field name="average_marks"/>
+                            <field name="highest_marks"/>
+                            <field name="lowest_marks"/>
+                        </group>
+                        <group>
+                            <field name="pass_count"/>
+                            <field name="fail_count"/>
+                            <field name="absent_count"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Student Marks" name="marks">
+                            <field name="result_ids" readonly="state == 'published'">
+                                <tree editable="bottom" decoration-danger="result_status == 'fail'"
+                                      decoration-success="result_status == 'pass'"
+                                      decoration-muted="result_status == 'absent'">
+                                    <field name="roll_number"/>
+                                    <field name="student_id"/>
+                                    <field name="is_absent"/>
+                                    <field name="marks_obtained" readonly="is_absent"/>
+                                    <field name="total_marks" column_invisible="1"/>
+                                    <field name="percentage" readonly="1"/>
+                                    <field name="grade" readonly="1"/>
+                                    <field name="result_status" readonly="1"/>
+                                    <field name="remarks"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="note" placeholder="Any additional notes about this exam..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_school_exam_search" model="ir.ui.view">
+        <field name="name">school.exam.search</field>
+        <field name="model">school.exam</field>
+        <field name="arch" type="xml">
+            <search string="Exam Search">
+                <field name="name"/>
+                <field name="exam_code"/>
+                <field name="subject_id"/>
+                <field name="class_id"/>
+                <field name="teacher_id"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Marks Entry" name="in_progress" domain="[('state', '=', 'in_progress')]"/>
+                <filter string="Published" name="published" domain="[('state', '=', 'published')]"/>
+                <separator/>
+                <filter string="My Exams" name="my_exams" domain="[('teacher_id.user_id', '=', uid)]"/>
+                <group expand="1" string="Group By">
+                    <filter string="Subject" name="group_subject" context="{'group_by': 'subject_id'}"/>
+                    <filter string="Class" name="group_class" context="{'group_by': 'class_id'}"/>
+                    <filter string="Teacher" name="group_teacher" context="{'group_by': 'teacher_id'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Exam Date" name="group_date" context="{'group_by': 'exam_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_school_exam_pivot" model="ir.ui.view">
+        <field name="name">school.exam.pivot</field>
+        <field name="model">school.exam</field>
+        <field name="arch" type="xml">
+            <pivot string="Exam Analysis">
+                <field name="subject_id" type="row"/>
+                <field name="state" type="col"/>
+                <field name="average_marks" type="measure"/>
+                <field name="pass_count" type="measure"/>
+                <field name="fail_count" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_school_exam_graph" model="ir.ui.view">
+        <field name="name">school.exam.graph</field>
+        <field name="model">school.exam</field>
+        <field name="arch" type="xml">
+            <graph string="Exam Analysis" type="bar">
+                <field name="subject_id"/>
+                <field name="average_marks" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_school_exam" model="ir.actions.act_window">
+        <field name="name">Exams</field>
+        <field name="res_model">school.exam</field>
+        <field name="view_mode">tree,form,pivot,graph</field>
+        <field name="context">{'search_default_my_exams': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No exams found. Click to schedule a new exam.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_school_exam_by_class" model="ir.actions.act_window">
+        <field name="name">Results by Class</field>
+        <field name="res_model">school.exam</field>
+        <field name="view_mode">tree,form,pivot,graph</field>
+        <field name="context">{'search_default_group_class': 1, 'search_default_group_subject': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No exams found yet.
+            </p>
+        </field>
+    </record>
+
+    <!-- Standalone view of result lines, e.g. for a student's full result history -->
+    <record id="view_school_exam_result_tree" model="ir.ui.view">
+        <field name="name">school.exam.result.tree</field>
+        <field name="model">school.exam.result</field>
+        <field name="arch" type="xml">
+            <tree string="Exam Results" decoration-danger="result_status == 'fail'"
+                  decoration-success="result_status == 'pass'" decoration-muted="result_status == 'absent'">
+                <field name="exam_id"/>
+                <field name="subject_id"/>
+                <field name="class_id"/>
+                <field name="student_id"/>
+                <field name="roll_number"/>
+                <field name="is_absent"/>
+                <field name="marks_obtained"/>
+                <field name="total_marks"/>
+                <field name="percentage"/>
+                <field name="grade"/>
+                <field name="result_status"/>
+                <field name="remarks"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_school_exam_result_form" model="ir.ui.view">
+        <field name="name">school.exam.result.form</field>
+        <field name="model">school.exam.result</field>
+        <field name="arch" type="xml">
+            <form string="Exam Result">
+                <header>
+                    <button name="%(action_report_exam_marksheet)d" type="action"
+                            string="Print Marksheet" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="exam_id"/>
+                            <field name="student_id"/>
+                            <field name="roll_number"/>
+                            <field name="is_absent"/>
+                        </group>
+                        <group>
+                            <field name="marks_obtained" readonly="is_absent"/>
+                            <field name="total_marks" readonly="1"/>
+                            <field name="percentage" readonly="1"/>
+                            <field name="grade" readonly="1"/>
+                            <field name="result_status" readonly="1"/>
+                        </group>
+                    </group>
+                    <field name="remarks"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_school_exam_result" model="ir.actions.act_window">
+        <field name="name">Exam Results</field>
+        <field name="res_model">school.exam.result</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Grading scale configuration -->
+    <record id="view_school_exam_grade_tree" model="ir.ui.view">
+        <field name="name">school.exam.grade.tree</field>
+        <field name="model">school.exam.grade</field>
+        <field name="arch" type="xml">
+            <tree string="Grading Scale" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="min_percentage"/>
+                <field name="max_percentage"/>
+                <field name="is_pass"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_school_exam_grade" model="ir.actions.act_window">
+        <field name="name">Grading Scale</field>
+        <field name="res_model">school.exam.grade</field>
+        <field name="view_mode">tree</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No grading scale defined. Click to add a grade band (e.g. A+, A, B...).
+            </p>
+        </field>
+    </record>
+
+</odoo>

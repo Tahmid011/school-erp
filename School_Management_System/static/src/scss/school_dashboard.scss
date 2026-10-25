@@ -1,0 +1,291 @@
+.o_school_dashboard_form {
+    .o_form_sheet_bg {
+        background:
+            radial-gradient(circle at top left, rgba(20, 184, 166, 0.22), transparent 34rem),
+            radial-gradient(circle at 85% 12%, rgba(251, 191, 36, 0.2), transparent 28rem),
+            linear-gradient(135deg, #eef6f8 0%, #f8fafc 44%, #edf4ff 100%);
+    }
+
+    .o_school_dashboard_sheet {
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        box-shadow: none !important;
+        background: transparent !important;
+    }
+}
+
+.o_school_dashboard {
+    color: #172033;
+    padding: 24px;
+}
+
+.o_school_dashboard_hero,
+.o_school_glass_panel,
+.o_school_metric_card {
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    background: rgba(255, 255, 255, 0.48);
+    box-shadow: 0 18px 55px rgba(15, 23, 42, 0.12);
+    backdrop-filter: blur(18px) saturate(150%);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+}
+
+.o_school_dashboard_hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-height: 188px;
+    padding: 28px;
+    border-radius: 22px;
+    overflow: hidden;
+}
+
+.o_school_dashboard_eyebrow {
+    display: inline-flex;
+    margin-bottom: 8px;
+    color: #0f766e;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: uppercase;
+}
+
+.o_school_dashboard_hero h1,
+.o_school_panel_header h2 {
+    margin: 0;
+    color: #111827;
+    font-weight: 800;
+    letter-spacing: 0;
+}
+
+.o_school_dashboard_hero h1 {
+    font-size: 34px;
+    line-height: 1.12;
+}
+
+.o_school_dashboard_hero p {
+    max-width: 680px;
+    margin: 12px 0 0;
+    color: #4b5563;
+    font-size: 15px;
+}
+
+.o_school_dashboard_refresh {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    background: rgba(255, 255, 255, 0.72);
+}
+
+.o_school_dashboard_cards {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(180px, 1fr));
+    gap: 16px;
+    margin-top: 18px;
+}
+
+.o_school_metric_card {
+    display: flex;
+    min-height: 166px;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    border-radius: 18px;
+    color: inherit;
+    text-align: left;
+    transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+.o_school_metric_card:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.64);
+    box-shadow: 0 22px 60px rgba(15, 23, 42, 0.16);
+}
+
+.o_school_metric_icon {
+    display: inline-flex;
+    width: 42px;
+    height: 42px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    border-radius: 14px;
+    color: #0f766e;
+    background: rgba(20, 184, 166, 0.16);
+}
+
+.o_school_metric_primary .o_school_metric_icon {
+    color: #92400e;
+    background: rgba(251, 191, 36, 0.2);
+}
+
+.o_school_metric_label,
+.o_school_capacity_stats span,
+.o_school_status_row span {
+    color: #64748b;
+    font-size: 13px;
+}
+
+.o_school_metric_card strong {
+    margin-top: 4px;
+    color: #0f172a;
+    font-size: 34px;
+    line-height: 1;
+}
+
+.o_school_metric_card small {
+    margin-top: auto;
+    color: #64748b;
+    font-size: 12px;
+}
+
+.o_school_dashboard_grid {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.95fr) minmax(360px, 1.35fr);
+    gap: 18px;
+    margin-top: 18px;
+}
+
+.o_school_glass_panel {
+    padding: 22px;
+    border-radius: 20px;
+}
+
+.o_school_panel_header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.o_school_panel_header h2 {
+    font-size: 20px;
+}
+
+.o_school_panel_badge {
+    display: inline-flex;
+    align-items: center;
+    min-width: 72px;
+    justify-content: center;
+    padding: 7px 10px;
+    border-radius: 999px;
+    color: #0f766e;
+    font-weight: 700;
+    background: rgba(20, 184, 166, 0.14);
+}
+
+.o_school_capacity_stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.o_school_capacity_stats > div {
+    min-height: 112px;
+    padding: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.62);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.42);
+}
+
+.o_school_capacity_stats strong {
+    display: block;
+    margin-top: 12px;
+    color: #0f172a;
+    font-size: 28px;
+    line-height: 1;
+}
+
+.o_school_admission_list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(180px, 1fr));
+    gap: 10px;
+}
+
+.o_school_status_row {
+    display: grid;
+    grid-template-columns: 12px 1fr auto;
+    align-items: center;
+    gap: 10px;
+    min-height: 52px;
+    padding: 12px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.58);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.38);
+    color: #172033;
+    text-align: left;
+}
+
+.o_school_status_row:hover {
+    background: rgba(255, 255, 255, 0.62);
+}
+
+.o_school_status_row strong {
+    color: #0f172a;
+    font-size: 18px;
+}
+
+.o_school_status_dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.o_school_status_draft {
+    background: #94a3b8;
+}
+
+.o_school_status_submitted {
+    background: #2563eb;
+}
+
+.o_school_status_review {
+    background: #f59e0b;
+}
+
+.o_school_status_approved {
+    background: #10b981;
+}
+
+.o_school_status_admitted {
+    background: #14b8a6;
+}
+
+.o_school_status_rejected {
+    background: #ef4444;
+}
+
+@media (max-width: 1100px) {
+    .o_school_dashboard_cards,
+    .o_school_dashboard_grid {
+        grid-template-columns: repeat(2, minmax(220px, 1fr));
+    }
+}
+
+@media (max-width: 720px) {
+    .o_school_dashboard {
+        padding: 14px;
+    }
+
+    .o_school_dashboard_hero {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+    }
+
+    .o_school_dashboard_hero h1 {
+        font-size: 26px;
+    }
+
+    .o_school_dashboard_cards,
+    .o_school_dashboard_grid,
+    .o_school_capacity_stats,
+    .o_school_admission_list {
+        grid-template-columns: 1fr;
+    }
+}
