@@ -8,6 +8,9 @@ class SchoolExamResult(models.Model):
     _rec_name = 'student_id'
     _order = 'exam_id, roll_number'
 
+    company_id = fields.Many2one(
+        'res.company', string="Company", default=lambda self: self.env.company
+    )
     exam_id = fields.Many2one('school.exam', string="Exam", required=True, ondelete='cascade')
     student_id = fields.Many2one('school.student', string="Student", required=True, ondelete='cascade')
 

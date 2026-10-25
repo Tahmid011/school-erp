@@ -8,6 +8,9 @@ class StudentClass(models.Model):
     _description = 'Student Class'
     _rec_name = 'name'
 
+    company_id = fields.Many2one(
+        'res.company', string="Company", default=lambda self: self.env.company
+    )
     reference_code = fields.Char(string="Reference Code", default='New', readonly=True)
     name = fields.Char(string="Class Name", required=True)
     section = fields.Char(string="Section", required=True)
@@ -32,7 +35,7 @@ class StudentClass(models.Model):
             'name': 'Exams',
             'type': 'ir.actions.act_window',
             'res_model': 'school.exam',  # adjust to your actual exam model's technical name
-            'view_mode': 'list,form',
+            'view_mode': 'tree,form',
             'domain': [('class_id', '=', self.id)],
             'context': {'default_class_id': self.id},
         }
@@ -59,4 +62,3 @@ class StudentClass(models.Model):
     def _compute_total_students(self):
         for rec in self:
             rec.total_students = len(rec.student_ids.filtered(lambda s: s.state == 'admitted'))
-

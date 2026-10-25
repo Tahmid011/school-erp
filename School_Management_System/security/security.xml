@@ -60,5 +60,59 @@
             <field name="domain_force">[('exam_id.teacher_id.user_id', '=', user.id)]</field>
         </record>
 
+        <record id="student_admission_company_rule" model="ir.rule">
+            <field name="name">Student Admission: multi-company</field>
+            <field name="model_id" ref="model_student_admission"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="student_class_company_rule" model="ir.rule">
+            <field name="name">Student Class: multi-company</field>
+            <field name="model_id" ref="model_student_class"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="school_student_company_rule" model="ir.rule">
+            <field name="name">School Student: multi-company</field>
+            <field name="model_id" ref="model_school_student"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="school_teacher_company_rule" model="ir.rule">
+            <field name="name">School Teacher: multi-company</field>
+            <field name="model_id" ref="model_school_teacher"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="school_subject_company_rule" model="ir.rule">
+            <field name="name">School Subject: multi-company</field>
+            <field name="model_id" ref="model_school_subject"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="school_section_company_rule" model="ir.rule">
+            <field name="name">School Section: multi-company</field>
+            <field name="model_id" ref="model_school_section"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="school_exam_company_rule" model="ir.rule">
+            <field name="name">School Exam: multi-company</field>
+            <field name="model_id" ref="model_school_exam"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="school_exam_result_company_rule" model="ir.rule">
+            <field name="name">School Exam Result: multi-company</field>
+            <field name="model_id" ref="model_school_exam_result"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="school_exam_grade_company_rule" model="ir.rule">
+            <field name="name">School Exam Grade: multi-company</field>
+            <field name="model_id" ref="model_school_exam_grade"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
     </data>
-</odoo> 
+</odoo>

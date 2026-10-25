@@ -4,7 +4,8 @@
     'summary': 'Basic School Management System',
     'author': 'Tahmidul Biswas',
     'category': 'Services',
-    'depends': ['base','mail', 'web'],
+    'depends': ['base', 'mail', 'web', 'contacts', 'hr', 'account', 'portal'],
+    'license': 'LGPL-3',
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',

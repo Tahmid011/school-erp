@@ -5,6 +5,9 @@ class SchoolTeacher(models.Model):
     _description = 'School Teacher'
     _rec_name = 'name'
 
+    company_id = fields.Many2one(
+        'res.company', string="Company", default=lambda self: self.env.company
+    )
     employee_id = fields.Char(string="Employee ID", default='New', readonly=True)
     name = fields.Char(string="Name", required=True)
     contact_number = fields.Char(string="Contact Number", required=True)

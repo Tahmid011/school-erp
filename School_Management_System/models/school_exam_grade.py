@@ -7,6 +7,9 @@ class SchoolExamGrade(models.Model):
     _description = 'Exam Grading Scale'
     _order = 'sequence asc, min_percentage desc'
 
+    company_id = fields.Many2one(
+        'res.company', string="Company", default=lambda self: self.env.company
+    )
     name = fields.Char(string="Grade", required=True, help="Letter grade shown to teachers/students, e.g. A+, A, B, F")
     sequence = fields.Integer(string="Sequence", default=10)
     min_percentage = fields.Float(string="Min %", required=True)

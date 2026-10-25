@@ -2,9 +2,13 @@ from odoo import api, models, fields
 
 class SchoolStudent(models.Model):
     _name = 'school.student'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'School Student'
     _rec_name = 'name'
 
+    company_id = fields.Many2one(
+        'res.company', string="Company", default=lambda self: self.env.company
+    )
     name = fields.Char(string="Name", required=True)
     roll_number = fields.Integer(string="Roll Number")
     date_of_birth = fields.Date(string="Date of Birth")

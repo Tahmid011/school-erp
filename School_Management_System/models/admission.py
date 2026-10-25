@@ -7,6 +7,9 @@ class StudentAdmission(models.Model):
     _description = 'Student Admission'
     _rec_name = 'name'
 
+    company_id = fields.Many2one(
+        'res.company', string="Company", default=lambda self: self.env.company
+    )
     name = fields.Char(string="Name", required=True, tracking=True)
     date_of_birth = fields.Date(string="Date of Birth", required=True, tracking=True)
     class_id = fields.Many2one('student.class', string="Class", tracking=True)

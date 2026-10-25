@@ -9,6 +9,9 @@ class SchoolExam(models.Model):
     _rec_name = 'name'
     _order = 'exam_date desc'
 
+    company_id = fields.Many2one(
+        'res.company', string="Company", default=lambda self: self.env.company
+    )
     name = fields.Char(string="Exam Name", required=True, tracking=True,
                         help="E.g. 'Midterm Exam 2026' or 'Unit Test - Chapter 3'")
     exam_code = fields.Char(string="Exam Code", default='New', readonly=True, copy=False)
@@ -55,30 +58,6 @@ class SchoolExam(models.Model):
     average_marks = fields.Float(string="Average Marks", compute='_compute_stats')
     highest_marks = fields.Float(string="Highest Marks", compute='_compute_stats')
     lowest_marks = fields.Float(string="Lowest Marks", compute='_compute_stats')
-
-    exam_ids = fields.One2many('school.exam', 'class_id', string="Exams")
-    exam_count = fields.Integer(string="Exam Count", compute='_compute_exam_count')
-
-    @api.depends('exam_ids')
-    def _compute_exam_count(self):
-        for rec in self:
-            rec.exam_count = len(rec.exam_ids)
-
-    def action_view_exams(self):
-        """Open all exams for this class, grouped by subject, so a user can drill down
-        from Class -> Subject -> Exam -> individual student marks."""
-        self.ensure_one()
-        return {
-            'type': 'ir.actions.act_window',
-            'name': 'Exams - %s' % (self.display_name or self.name or ''),
-            'res_model': 'school.exam',
-            'view_mode': 'tree,form,pivot,graph',
-            'domain': [('class_id', '=', self.id)],
-            'context': {
-                'default_class_id': self.id,
-                'search_default_group_subject': 1,
-            },
-        }
 
     @api.model_create_multi
     def create(self, vals_list):
