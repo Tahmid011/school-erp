@@ -26,7 +26,7 @@ class SchoolExam(models.Model):
 
     subject_id = fields.Many2one('school.subject', string="Subject", required=True, tracking=True)
     class_id = fields.Many2one(
-        'student.class', string="Class", related='subject_id.section_id',
+        'student.class', string="Class", related='subject_id.class_id',
         store=True, readonly=True
     )
     # Derived from the subject so a teacher can only ever schedule exams for

@@ -13,7 +13,9 @@ class SchoolStudent(models.Model):
     roll_number = fields.Integer(string="Roll Number")
     date_of_birth = fields.Date(string="Date of Birth")
     class_id = fields.Many2one('student.class', string="Class", tracking=True)
-    section = fields.Char(related='class_id.section', string="Section", store=True, readonly=True)
+    section = fields.Char(
+        related='class_id.section_id.name', string="Section", store=True, readonly=True,
+    )
     parent_contact = fields.Char(string="Parent Contact")
     #section = fields.Char(string="Section")
     

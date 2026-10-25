@@ -1,0 +1,27 @@
+<odoo>
+    <record id="view_student_promotion_form" model="ir.ui.view">
+        <field name="name">student.promotion.form</field>
+        <field name="model">student.promotion</field>
+        <field name="arch" type="xml">
+            <form string="Promote Students">
+                <group>
+                    <field name="source_class_id"/>
+                    <field name="target_class_id"/>
+                    <field name="target_academic_year_id"/>
+                    <field name="student_ids" widget="many2many_tags"/>
+                </group>
+                <footer>
+                    <button name="action_promote" type="object" string="Promote" class="oe_highlight"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_student_promotion" model="ir.actions.act_window">
+        <field name="name">Promote Students</field>
+        <field name="res_model">student.promotion</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

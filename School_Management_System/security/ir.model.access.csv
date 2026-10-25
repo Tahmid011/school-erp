@@ -19,3 +19,9 @@ access_school_exam_result_admin,access.school.exam.result.admin,model_school_exa
 access_school_exam_result_teacher,access.school.exam.result.teacher,model_school_exam_result,School_Management_System.group_school_teacher,1,1,1,0
 access_school_exam_grade_admin,access.school.exam.grade.admin,model_school_exam_grade,School_Management_System.group_school_admin,1,1,1,1
 access_school_exam_grade_teacher,access.school.exam.grade.teacher,model_school_exam_grade,School_Management_System.group_school_teacher,1,0,0,0
+access_school_academic_year_admin,access.school.academic.year.admin,model_school_academic_year,School_Management_System.group_school_admin,1,1,1,1
+access_school_academic_year_teacher,access.school.academic.year.teacher,model_school_academic_year,School_Management_System.group_school_teacher,1,0,0,0
+access_school_term_admin,access.school.term.admin,model_school_term,School_Management_System.group_school_admin,1,1,1,1
+access_school_term_teacher,access.school.term.teacher,model_school_term,School_Management_System.group_school_teacher,1,0,0,0
+access_student_promotion_admin,access.student.promotion.admin,model_student_promotion,School_Management_System.group_school_admin,1,1,1,1
+access_student_promotion_teacher,access.student.promotion.teacher,model_student_promotion,School_Management_System.group_school_teacher,1,0,0,0

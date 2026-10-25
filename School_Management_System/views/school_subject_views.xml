@@ -5,7 +5,7 @@
         <field name="arch" type="xml">
             <tree string="Subjects">
                 <field name="subject_code"/>
-                <field name="section_id"/>
+                <field name="class_id"/>
                 <field name="name"/>
                 <field name="teacher_id"/>
             </tree>
@@ -20,7 +20,7 @@
                 <sheet>
                     <group>
                         <field name="subject_code"/>
-                        <field name="section_id"/>
+                        <field name="class_id"/>
                         <field name="name"/>
                         <field name="teacher_id"/>
                     </group>

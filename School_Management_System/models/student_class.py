@@ -1,7 +1,4 @@
-import string
-
 from odoo import api, models, fields
-from odoo.exceptions import ValidationError
 
 class StudentClass(models.Model):
     _name = 'student.class'
@@ -13,8 +10,15 @@ class StudentClass(models.Model):
     )
     reference_code = fields.Char(string="Reference Code", default='New', readonly=True)
     name = fields.Char(string="Class Name", required=True)
-    section = fields.Char(string="Section", required=True)
-    #section_id = fields.Many2one('school.section', string="Section", required=True)
+    section_id = fields.Many2one(
+        'school.section', string="Section", required=True, ondelete='restrict',
+    )
+    academic_year_id = fields.Many2one(
+        'school.academic.year', string="Academic Year", ondelete='restrict',
+    )
+    class_teacher_id = fields.Many2one(
+        'school.teacher', string="Class Teacher", ondelete='restrict',
+    )
     total_seat = fields.Integer(string="Total Seat", required=True)
     total_students = fields.Integer(string="Total Students", compute='_compute_total_students', store=True)
     available_seat = fields.Integer(string="Available Seat", compute='_compute_available_seat', store=True)
@@ -48,10 +52,10 @@ class StudentClass(models.Model):
                 vals['reference_code'] = self.env['ir.sequence'].next_by_code('student.class') or 'New'
         return super().create(vals_list)
     
-    @api.depends('name', 'section')
+    @api.depends('name', 'section_id')
     def _compute_display_name(self):
         for rec in self:
-            rec.display_name = f"[{rec.section or ''}] {rec.name or ''}"
+            rec.display_name = f"[{rec.section_id.name or ''}] {rec.name or ''}"
     
     @api.depends('total_seat', 'total_students')
     def _compute_available_seat(self):

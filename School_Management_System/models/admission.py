@@ -13,7 +13,9 @@ class StudentAdmission(models.Model):
     name = fields.Char(string="Name", required=True, tracking=True)
     date_of_birth = fields.Date(string="Date of Birth", required=True, tracking=True)
     class_id = fields.Many2one('student.class', string="Class", tracking=True)
-    section = fields.Char(related='class_id.section', string="Section", store=True, readonly=True)
+    section = fields.Char(
+        related='class_id.section_id.name', string="Section", store=True, readonly=True,
+    )
     parent_contact = fields.Char(string="Parent Contact", required=True, tracking=True)
     roll_number = fields.Integer(string="Roll Number", tracking=True)
 

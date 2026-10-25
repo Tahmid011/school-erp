@@ -1,6 +1,6 @@
 {
     'name': 'School Management System',
-    'version': '1.0',
+    'version': '1.1',
     'summary': 'Basic School Management System',
     'author': 'Tahmidul Biswas',
     'category': 'Services',
@@ -16,6 +16,8 @@
         'views/school_student_views.xml',
         'views/school_subject_views.xml',
         'views/school_section_views.xml',
+        'views/academic_year_views.xml',
+        'views/student_promotion_views.xml',
         'views/school_teacher_views.xml',
         'views/school_exam_views.xml',
         'views/school_dashboard_views.xml',

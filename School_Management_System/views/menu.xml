@@ -26,6 +26,11 @@
         parent="menu_school_root"
         action="action_student_class"
     />
+    <menuitem id="menu_student_promotion"
+        name="Promote Students"
+        parent="menu_class"
+        action="action_student_promotion"
+    />
     <menuitem id="menu_school_teacher" 
         name="Teachers" 
         parent="menu_school_root"
@@ -68,6 +73,16 @@
         name="Sections" 
         parent="menu_school_config"
         action="action_school_section"
+    />
+    <menuitem id="menu_school_academic_year"
+        name="Academic Years"
+        parent="menu_school_config"
+        action="action_school_academic_year"
+    />
+    <menuitem id="menu_school_term"
+        name="Terms"
+        parent="menu_school_config"
+        action="action_school_term"
     />
     <menuitem id="menu_school_exam_grade"
         name="Grading Scale"

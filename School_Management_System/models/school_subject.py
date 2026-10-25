@@ -9,7 +9,7 @@ class SchoolSubject(models.Model):
         'res.company', string="Company", default=lambda self: self.env.company
     )
     subject_code = fields.Char(string="Subject Code", default='New', readonly=True)
-    section_id = fields.Many2one('student.class', string="Section", required=True)
+    class_id = fields.Many2one('student.class', string="Class", required=True)
     name = fields.Char(string="Subject Name", required=True)
     teacher_id = fields.Many2one('school.teacher', string="Teacher")
 
@@ -20,4 +20,3 @@ class SchoolSubject(models.Model):
                 vals['subject_code'] = self.env['ir.sequence'].next_by_code('school.subject') or 'New'
         return super().create(vals_list)
     
-

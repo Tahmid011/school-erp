@@ -114,5 +114,17 @@
             <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
         </record>
 
+        <record id="school_academic_year_company_rule" model="ir.rule">
+            <field name="name">Academic Year: multi-company</field>
+            <field name="model_id" ref="model_school_academic_year"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="school_term_company_rule" model="ir.rule">
+            <field name="name">Term: multi-company</field>
+            <field name="model_id" ref="model_school_term"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
     </data>
 </odoo>

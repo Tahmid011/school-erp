@@ -12,6 +12,9 @@ from datetime import date
 
 rng = random.Random(42)
 created = {
+    'academic_years': 0,
+    'terms': 0,
+    'sections': 0,
     'classes': 0,
     'subjects': 0,
     'teachers': 0,
@@ -20,6 +23,9 @@ created = {
     'results': 0,
 }
 skipped = {
+    'academic_years': 0,
+    'terms': 0,
+    'sections': 0,
     'classes': 0,
     'subjects': 0,
     'teachers': 0,
@@ -52,21 +58,77 @@ try:
             'No grading scale is installed; install School_Management_System first.'
         )
 
+    company = env.company
+    academic_year = get_or_create(
+        'school.academic.year',
+        [('name', '=', '2026-2027'), ('company_id', '=', company.id)],
+        {
+            'name': '2026-2027',
+            'company_id': company.id,
+            'date_start': date(2026, 1, 1),
+            'date_end': date(2026, 12, 31),
+            'is_current': True,
+            'state': 'open',
+        },
+        'academic_years',
+        'Academic Year 2026-2027',
+    )
+    term_data = (
+        ('Term 1', date(2026, 1, 1), date(2026, 4, 30), 10),
+        ('Term 2', date(2026, 5, 1), date(2026, 8, 31), 20),
+        ('Term 3', date(2026, 9, 1), date(2026, 12, 31), 30),
+    )
+    for name, date_start, date_end, sequence in term_data:
+        get_or_create(
+            'school.term',
+            [('name', '=', name), ('academic_year_id', '=', academic_year.id)],
+            {
+                'name': name,
+                'academic_year_id': academic_year.id,
+                'date_start': date_start,
+                'date_end': date_end,
+                'sequence': sequence,
+            },
+            'terms',
+            '%s 2026-2027' % name,
+        )
+
+    section_records = {}
+    for section in ('A', 'B'):
+        section_records[section] = get_or_create(
+            'school.section',
+            [('name', '=', section), ('company_id', '=', company.id)],
+            {'name': section, 'company_id': company.id},
+            'sections',
+            'Section %s' % section,
+        )
+
     class_records = {}
     for grade in range(6, 10):
         for section in ('A', 'B'):
             label = 'Class %s-%s' % (grade, section)
             class_records[(grade, section)] = get_or_create(
                 'student.class',
-                [('name', '=', 'Class %s' % grade), ('section', '=', section)],
+                [
+                    ('name', '=', 'Class %s' % grade),
+                    ('section_id', '=', section_records[section].id),
+                    ('company_id', '=', company.id),
+                ],
                 {
                     'name': 'Class %s' % grade,
-                    'section': section,
+                    'section_id': section_records[section].id,
+                    'academic_year_id': academic_year.id,
+                    'company_id': company.id,
                     'total_seat': 30,
                 },
                 'classes',
                 label,
             )
+            if class_records[(grade, section)].academic_year_id != academic_year:
+                current_record = 'Assigning academic year to %s' % label
+                class_records[(grade, section)].write({
+                    'academic_year_id': academic_year.id,
+                })
 
     teacher_data = [
         ('Nusrat Jahan', '01711000001', 'M.Ed.', 9),
@@ -98,6 +160,12 @@ try:
         )
         if not existing_teacher:
             created_teacher_names.add(name)
+        missing_class_ids = set(all_classes.ids) - set(teachers[name].class_ids.ids)
+        if missing_class_ids:
+            current_record = 'Assigning classes to Teacher %s' % name
+            teachers[name].write({
+                'class_ids': [(4, class_id) for class_id in missing_class_ids],
+            })
 
     subject_names = [
         'Bangla',
@@ -118,16 +186,21 @@ try:
                 'school.subject',
                 [
                     ('name', '=', subject_name),
-                    ('section_id', '=', class_record.id),
+                    ('class_id', '=', class_record.id),
                 ],
                 {
                     'name': subject_name,
-                    'section_id': class_record.id,
+                    'class_id': class_record.id,
                     'teacher_id': teacher.id,
                 },
                 'subjects',
                 '%s %s-%s' % (subject_name, grade, section),
             )
+    for class_index, ((grade, section), class_record) in enumerate(class_records.items()):
+        class_teacher = teacher_list[class_index % len(teacher_list)]
+        if class_record.class_teacher_id != class_teacher:
+            current_record = 'Assigning class teacher to %s-%s' % (grade, section)
+            class_record.write({'class_teacher_id': class_teacher.id})
     primary_subjects = {
         'Nusrat Jahan': 'Bangla',
         'Mahmudul Hasan': 'English',

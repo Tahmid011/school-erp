@@ -6,7 +6,9 @@
             <tree string="Class" editable="bottom">
                 <field name="reference_code"/>
                 <field name="name"/>
-                <field name="section"/>
+                <field name="section_id"/>
+                <field name="academic_year_id"/>
+                <field name="class_teacher_id"/>
                 <field name="total_seat"/>
                 <field name="total_students"/>
                 <field name="available_seat"/>
@@ -29,7 +31,9 @@
                         <group>
                             <field name="reference_code"/>
                             <field name="name"/>
-                            <field name="section"/>
+                            <field name="section_id"/>
+                            <field name="academic_year_id"/>
+                            <field name="class_teacher_id"/>
                         </group>
                         <group>
                             <field name="total_seat"/>

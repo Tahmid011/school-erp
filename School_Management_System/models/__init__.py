@@ -8,3 +8,5 @@ from . import school_exam_grade
 from . import school_exam
 from . import school_exam_result
 from . import school_dashboard
+from . import academic_year
+from . import student_promotion

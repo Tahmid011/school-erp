@@ -1,0 +1,94 @@
+<odoo>
+    <record id="view_school_academic_year_tree" model="ir.ui.view">
+        <field name="name">school.academic.year.tree</field>
+        <field name="model">school.academic.year</field>
+        <field name="arch" type="xml">
+            <tree string="Academic Years">
+                <field name="name"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="is_current"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_school_academic_year_form" model="ir.ui.view">
+        <field name="name">school.academic.year.form</field>
+        <field name="model">school.academic.year</field>
+        <field name="arch" type="xml">
+            <form string="Academic Year">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="date_start"/>
+                        <field name="date_end"/>
+                        <field name="is_current"/>
+                        <field name="state"/>
+                    </group>
+                    <notebook>
+                        <page string="Terms">
+                            <field name="term_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence"/>
+                                    <field name="name"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_school_academic_year" model="ir.actions.act_window">
+        <field name="name">Academic Years</field>
+        <field name="res_model">school.academic.year</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="view_school_term_tree" model="ir.ui.view">
+        <field name="name">school.term.tree</field>
+        <field name="model">school.term</field>
+        <field name="arch" type="xml">
+            <tree string="Terms">
+                <field name="sequence"/>
+                <field name="name"/>
+                <field name="academic_year_id"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_school_term_form" model="ir.ui.view">
+        <field name="name">school.term.form</field>
+        <field name="model">school.term</field>
+        <field name="arch" type="xml">
+            <form string="Term">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="academic_year_id"/>
+                        <field name="date_start"/>
+                        <field name="date_end"/>
+                        <field name="sequence"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_school_term" model="ir.actions.act_window">
+        <field name="name">Terms</field>
+        <field name="res_model">school.term</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>
