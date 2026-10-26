@@ -19,6 +19,9 @@ class StudentClass(models.Model):
     class_teacher_id = fields.Many2one(
         'school.teacher', string="Class Teacher", ondelete='restrict',
     )
+    subject_ids = fields.One2many(
+        'school.subject', 'class_id', string="Subjects",
+    )
     total_seat = fields.Integer(string="Total Seat", required=True)
     total_students = fields.Integer(string="Total Students", compute='_compute_total_students', store=True)
     available_seat = fields.Integer(string="Available Seat", compute='_compute_available_seat', store=True)
