@@ -5,7 +5,8 @@
         <field name="arch" type="xml">
             <tree string="Admission">
                 <field name="name"/>
-                <field name="roll_number"/>
+                <field name="roll_number" help="Assigned automatically when admitted. Leave empty." groups="School_Management_System.group_school_admin,School_Management_System.group_school_registrar"/>
+                <field name="roll_number" readonly="1" help="Assigned automatically when admitted. Leave empty." groups="School_Management_System.group_school_teacher"/>
                 <field name="date_of_birth"/>
                 <field name="class_id"/>
                 <field name="section"/>

@@ -228,10 +228,10 @@ try:
     ]
     for grade, section in class_records:
         class_record = class_records[(grade, section)]
-        for roll_number in range(1, 7):
+        for student_index in range(1, 7):
             name = '%s %s' % (
-                first_names[(grade + roll_number + (section == 'B')) % len(first_names)],
-                last_names[(grade * 2 + roll_number) % len(last_names)],
+                first_names[(grade + student_index + (section == 'B')) % len(first_names)],
+                last_names[(grade * 2 + student_index) % len(last_names)],
             )
             parent_contact = '01%09d' % rng.randint(0, 999999999)
             admission = get_or_create(
@@ -241,7 +241,6 @@ try:
                     'name': name,
                     'date_of_birth': student_birth_date(grade),
                     'parent_contact': parent_contact,
-                    'roll_number': roll_number,
                     'class_id': class_record.id,
                 },
                 'admissions',
@@ -268,7 +267,6 @@ try:
                 'name': name,
                 'date_of_birth': student_birth_date(6),
                 'parent_contact': '01%09d' % rng.randint(0, 999999999),
-                'roll_number': 7,
                 'class_id': class_record.id,
             },
             'admissions',

@@ -4,7 +4,7 @@
         <field name="model">school.teacher</field>
         <field name="arch" type="xml">
             <tree string="Teachers">
-                <field name="employee_id"/>
+                <field name="teacher_code"/>
                 <field name="name"/>
                 <field name="contact_number"/>
                 <field name="subject"/>
@@ -24,11 +24,15 @@
                         <button name="action_view_exams" type="object" class="oe_stat_button" icon="fa-file-text-o">
                             <field name="exam_count" widget="statinfo" string="Exams"/>
                         </button>
+                        <button name="action_open_employee" type="object" class="oe_stat_button" icon="fa-id-card">
+                            <span class="o_stat_text">Contact</span>
+                        </button>
                     </div>
                     <group>
                         <group>
-                            <field name="employee_id"/>
+                            <field name="teacher_code"/>
                             <field name="name"/>
+                            <field name="hr_employee_id"/>
                             <field name="contact_number"/>
                             <field name="subject"/>
                             <field name="class_ids" widget="many2many_tags"/>
@@ -51,6 +55,7 @@
         <field name="number_increment">1</field>
         <field name="code">school.teacher</field>
     </record>
+
 
     <record id="action_school_teacher" model="ir.actions.act_window">
         <field name="name">Teachers</field>

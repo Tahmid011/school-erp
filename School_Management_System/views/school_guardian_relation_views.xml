@@ -1,0 +1,35 @@
+<odoo>
+    <record id="view_school_guardian_relation_tree" model="ir.ui.view">
+        <field name="name">school.guardian.relation.tree</field>
+        <field name="model">school.guardian.relation</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="student_id"/>
+                <field name="partner_id"/>
+                <field name="relation"/>
+                <field name="is_primary"/>
+                <field name="is_fee_payer"/>
+                <field name="can_view_portal"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_school_guardian_relation_form" model="ir.ui.view">
+        <field name="name">school.guardian.relation.form</field>
+        <field name="model">school.guardian.relation</field>
+        <field name="arch" type="xml">
+            <form string="Guardian">
+                <sheet>
+                    <group>
+                        <field name="student_id"/>
+                        <field name="partner_id"/>
+                        <field name="relation"/>
+                        <field name="is_primary"/>
+                        <field name="is_fee_payer"/>
+                        <field name="can_view_portal"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

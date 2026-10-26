@@ -1,7 +1,7 @@
 <odoo>
     <menuitem id="menu_school_root" 
         name="SMS"
-        groups="School_Management_System.group_school_admin,School_Management_System.group_school_teacher"
+        groups="School_Management_System.group_school_admin,School_Management_System.group_school_teacher,School_Management_System.group_school_registrar"
     />
     <menuitem id="menu_school_dashboard"
         name="Dashboard"

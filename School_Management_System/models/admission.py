@@ -38,10 +38,21 @@ class StudentAdmission(models.Model):
                     student = self.env['school.student'].create({
                         'name': rec.name,
                         'date_of_birth': rec.date_of_birth,
-                        'parent_contact': rec.parent_contact,
                         'roll_number': rec.roll_number,
                         'admission_id': rec.id,
                         'class_id': rec.class_id.id
+                    })
+                    guardian = self.env['res.partner'].create({
+                        'name': 'Guardian of %s' % rec.name,
+                        'phone': rec.parent_contact,
+                        'company_id': rec.company_id.id,
+                    })
+                    self.env['school.guardian.relation'].create({
+                        'student_id': student.id,
+                        'partner_id': guardian.id,
+                        'relation': 'guardian',
+                        'is_primary': True,
+                        'is_fee_payer': True,
                     })
                     rec.student_id = student.id
         return res
@@ -68,4 +79,5 @@ class StudentAdmission(models.Model):
                 raise ValidationError("Please select a class before admitting the student.")
             if rec.class_id.available_seat <= 0:
                 raise ValidationError("No available seats in the selected class.")
+            rec.roll_number = rec.class_id._get_next_roll_number()
             rec.state = 'admitted'

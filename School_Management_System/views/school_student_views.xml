@@ -6,7 +6,9 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name"/>
-                <field name="roll_number"/>
+                <field name="student_code"/>
+                <field name="roll_number" groups="School_Management_System.group_school_admin,School_Management_System.group_school_registrar"/>
+                <field name="roll_number" readonly="1" groups="School_Management_System.group_school_teacher"/>
                 <field name="date_of_birth"/>
                 <field name="section"/>
                 <field name="parent_contact"/>
@@ -22,17 +24,30 @@
             <form string="Student">
                 <sheet>
                     <div class="oe_button_box" name="button_box">
+                        <button name="action_view_guardians" type="object" class="oe_stat_button" icon="fa-users">
+                            <field name="guardian_count" widget="statinfo" string="Guardians"/>
+                        </button>
+                        <button name="action_open_contact" type="object" class="oe_stat_button" icon="fa-address-card">
+                            <span class="o_stat_text">Contact</span>
+                        </button>
                         <button name="action_view_exam_results" type="object" class="oe_stat_button" icon="fa-graduation-cap">
                             <field name="exam_result_count" widget="statinfo" string="Exam Results"/>
                         </button>
                     </div>
                     <group>
+                        <field name="photo" widget="image" class="oe_avatar"/>
                         <field name="name"/>
+                        <field name="student_code"/>
                         <field name="roll_number"/>
                         <field name="date_of_birth"/>
+                        <field name="gender"/>
+                        <field name="blood_group"/>
                     </group>
                     <group>
                         <field name="class_id"/>
+                        <field name="phone"/>
+                        <field name="email"/>
+                        <field name="address"/>
                         <field name="parent_contact"/>
                         <field name="section"/>
                         <field name="admission_id" readonly="1"/>
@@ -55,6 +70,14 @@
                 No student records found. Click to create a new student record.
             </p>
         </field>
+    </record>
+
+    <record id="sequence_school_student" model="ir.sequence">
+        <field name="name">School Student Reference Code</field>
+        <field name="prefix">STU/%(year)s/</field>
+        <field name="padding">4</field>
+        <field name="number_increment">1</field>
+        <field name="code">school.student</field>
     </record>
 
 </odoo>

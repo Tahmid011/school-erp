@@ -1,8 +1,10 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_student_admission_admin,access.student.admission.admin,model_student_admission,School_Management_System.group_school_admin,1,1,1,1
 access_student_admission_teacher,access.student.admission.teacher,model_student_admission,School_Management_System.group_school_teacher,1,0,0,0
+access_student_admission_registrar,access.student.admission.registrar,model_student_admission,School_Management_System.group_school_registrar,1,1,1,0
 access_student_class_admin,access.student.class.admin,model_student_class,School_Management_System.group_school_admin,1,1,1,1
 access_student_class_teacher,access.student.class.teacher,model_student_class,School_Management_System.group_school_teacher,1,0,0,0
+access_student_class_registrar,access.student.class.registrar,model_student_class,School_Management_System.group_school_registrar,1,1,0,0
 access_school_teacher_admin,access.school.teacher.admin,model_school_teacher,School_Management_System.group_school_admin,1,1,1,1
 access_school_teacher_teacher,access.school.teacher.teacher,model_school_teacher,School_Management_System.group_school_teacher,1,0,0,0
 access_school_subject_admin,access.school.subject.admin,model_school_subject,School_Management_System.group_school_admin,1,1,1,1
@@ -11,6 +13,10 @@ access_school_section_admin,access.school.section.admin,model_school_section,Sch
 access_school_section_teacher,access.school.section.teacher,model_school_section,School_Management_System.group_school_teacher,1,0,0,0
 access_school_student_admin,access.school.student.admin,model_school_student,School_Management_System.group_school_admin,1,1,1,1
 access_school_student_teacher,access.school.student.teacher,model_school_student,School_Management_System.group_school_teacher,1,1,0,0
+access_school_student_registrar,access.school.student.registrar,model_school_student,School_Management_System.group_school_registrar,1,1,1,0
+access_school_guardian_relation_registrar,access.school.guardian.relation.registrar,model_school_guardian_relation,School_Management_System.group_school_registrar,1,1,1,0
+access_school_guardian_relation_admin,access.school.guardian.relation.admin,model_school_guardian_relation,School_Management_System.group_school_admin,1,1,1,1
+access_school_guardian_relation_teacher,access.school.guardian.relation.teacher,model_school_guardian_relation,School_Management_System.group_school_teacher,1,0,0,0
 access_school_dashboard_admin,access.school.dashboard.admin,model_school_dashboard,School_Management_System.group_school_admin,1,1,1,1
 access_school_dashboard_teacher,access.school.dashboard.teacher,model_school_dashboard,School_Management_System.group_school_teacher,1,1,1,1
 access_school_exam_admin,access.school.exam.admin,model_school_exam,School_Management_System.group_school_admin,1,1,1,1

@@ -28,6 +28,27 @@ class StudentClass(models.Model):
     exam_ids = fields.One2many('school.exam', 'class_id', string="Exams")  # adjust model/field names
     exam_count = fields.Integer(string="Exams", compute='_compute_exam_count')
 
+    def _get_next_roll_number(self):
+        self.ensure_one()
+        self.env.cr.execute(
+            "SELECT id FROM student_class WHERE id = %s FOR UPDATE",
+            (self.id,),
+        )
+        self.env.cr.execute(
+            """
+                SELECT GREATEST(
+                    COALESCE((SELECT MAX(roll_number)
+                                FROM school_student
+                               WHERE class_id = %s), 0),
+                    COALESCE((SELECT MAX(roll_number)
+                                FROM student_admission
+                               WHERE class_id = %s), 0)
+                ) + 1
+            """,
+            (self.id, self.id),
+        )
+        return self.env.cr.fetchone()[0]
+
     @api.depends('exam_ids')
     def _compute_exam_count(self):
         for rec in self:

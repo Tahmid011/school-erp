@@ -4,6 +4,7 @@ from . import school_teacher
 from . import school_subject
 from . import school_section
 from . import school_student
+from . import school_guardian_relation
 from . import school_exam_grade
 from . import school_exam
 from . import school_exam_result

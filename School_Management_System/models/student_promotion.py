@@ -31,7 +31,7 @@ class StudentPromotion(models.TransientModel):
             and self.target_class_id.academic_year_id != self.target_academic_year_id
         ):
             raise UserError('The target class does not belong to the target academic year.')
-        for student in self.student_ids:
+        for student in self.student_ids.sorted(key=lambda record: (record.roll_number or 0, record.id)):
             old_class = student.class_id.display_name
             student.write({
                 'class_id': self.target_class_id.id,
