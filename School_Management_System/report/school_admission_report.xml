@@ -1,0 +1,43 @@
+<odoo>
+    <template id="report_student_admission_document">
+        <t t-call="web.external_layout">
+            <div class="page">
+                <h2>Student Admission Application</h2>
+                <table class="table table-sm">
+                    <tr><td><strong>Application Number</strong></td><td><span t-field="o.application_number"/></td></tr>
+                    <tr><td><strong>Name</strong></td><td><span t-field="o.name"/></td></tr>
+                    <tr><td><strong>Date of Birth</strong></td><td><span t-field="o.date_of_birth"/></td></tr>
+                    <tr><td><strong>Applying for Class</strong></td><td><span t-field="o.applying_for_class_id"/></td></tr>
+                    <tr><td><strong>Previous School</strong></td><td><span t-field="o.previous_school"/></td></tr>
+                    <tr><td><strong>Entrance Test Score</strong></td><td><span t-field="o.entrance_test_score"/></td></tr>
+                    <tr><td><strong>Address</strong></td><td><span t-field="o.address"/></td></tr>
+                </table>
+                <h4>Guardian Details</h4>
+                <table class="table table-sm">
+                    <tr><th>Relation</th><th>Name</th><th>Phone</th><th>Email</th><th>Occupation</th></tr>
+                    <tr><td>Father</td><td><span t-field="o.father_name"/></td><td><span t-field="o.father_phone"/></td><td><span t-field="o.father_email"/></td><td><span t-field="o.father_occupation"/></td></tr>
+                    <tr><td>Mother</td><td><span t-field="o.mother_name"/></td><td><span t-field="o.mother_phone"/></td><td><span t-field="o.mother_email"/></td><td><span t-field="o.mother_occupation"/></td></tr>
+                </table>
+                <h4>Documents</h4>
+                <ul><li t-foreach="o.document_ids" t-as="document"><span t-field="document.document_type"/> - <span t-if="document.attachment_id">Attached</span><span t-else="">Missing</span></li></ul>
+            </div>
+        </t>
+    </template>
+    <template id="report_student_admission">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="School_Management_System.report_student_admission_document"/>
+            </t>
+        </t>
+    </template>
+    <record id="action_report_student_admission" model="ir.actions.report">
+        <field name="name">Admission Application</field>
+        <field name="model">student.admission</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">School_Management_System.report_student_admission</field>
+        <field name="report_file">School_Management_System.report_student_admission</field>
+        <field name="print_report_name">'Admission - %s' % (object.application_number)</field>
+        <field name="binding_model_id" ref="model_student_admission"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

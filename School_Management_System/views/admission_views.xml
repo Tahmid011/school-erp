@@ -4,14 +4,12 @@
         <field name="model">student.admission</field>
         <field name="arch" type="xml">
             <tree string="Admission">
+                <field name="application_number"/>
                 <field name="name"/>
-                <field name="roll_number" help="Assigned automatically when admitted. Leave empty." groups="School_Management_System.group_school_admin,School_Management_System.group_school_registrar"/>
-                <field name="roll_number" readonly="1" help="Assigned automatically when admitted. Leave empty." groups="School_Management_System.group_school_teacher"/>
-                <field name="date_of_birth"/>
-                <field name="class_id"/>
-                <field name="section"/>
-                <field name="parent_contact"/>
+                <field name="applying_for_class_id"/>
+                <field name="entrance_test_score"/>
                 <field name="state"/>
+                <field name="reviewer_id"/>
             </tree>
         </field>
     </record>
@@ -22,29 +20,68 @@
         <field name="arch" type="xml">
             <form string="Admission">
                 <header>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,under review,approved,rejected,admitted"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,under review,approved,waitlisted,rejected,admitted"/>
                     <button name="action_submit" type="object" string="Submit" invisible="state != 'draft'" class="oe_highlight"/>
                     <button name="action_under_review" type="object" string="Under Review" invisible="state != 'submitted'" class="oe_highlight"/>
                     <button name="action_approve" type="object" string="Approve" invisible="state != 'under review'" class="oe_highlight"/>
+                    <button name="action_waitlist" type="object" string="Waitlist" invisible="state not in ('under review', 'approved')" class="btn-secondary"/>
                     <button name="action_reject" type="object" string="Reject" invisible="state != 'under review'" class="btn-secondary"/>
                     <button name="action_admit" type="object" string="Admit" invisible="state != 'approved'" class="oe_highlight"/>
                 </header>
                 <sheet>
                     <group>
                         <group>
+                            <field name="application_number"/>
                             <field name="name"/>
-                            <field name="roll_number"/>
                             <field name="date_of_birth"/>
+                            <field name="photo" widget="image" class="oe_avatar"/>
+                            <field name="previous_school"/>
                         </group>
                         <group>
-                            <field name="class_id"/>
+                            <field name="applying_for_class_id"/>
+                            <field name="class_id" readonly="1"/>
                             <field name="section"/>
-                            <field name="parent_contact"/>
+                            <field name="entrance_test_score"/>
+                            <field name="reviewer_id"/>
+                            <field name="student_id" readonly="1"/>
                         </group>
                     </group>
+                    <notebook>
+                        <page string="Guardian Details">
+                            <group>
+                                <group string="Father">
+                                    <field name="father_name"/>
+                                    <field name="father_phone"/>
+                                    <field name="father_email"/>
+                                    <field name="father_occupation"/>
+                                </group>
+                                <group string="Mother">
+                                    <field name="mother_name"/>
+                                    <field name="mother_phone"/>
+                                    <field name="mother_email"/>
+                                    <field name="mother_occupation"/>
+                                </group>
+                                <group string="Legacy Guardian Contact">
+                                    <field name="parent_contact"/>
+                                    <field name="guardian_email"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Address and Documents">
+                            <field name="address"/>
+                            <field name="document_ids">
+                                <tree editable="bottom">
+                                    <field name="document_type"/>
+                                    <field name="attachment_id"/>
+                                    <field name="required"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
                 </sheet>
                 <div class="oe_chatter">
-                    <field name="message_follower_ids" groups= "base.group_user"/>
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
                     <field name="message_ids"/>
                 </div>
             </form>
@@ -56,27 +93,22 @@
         <field name="model">student.admission</field>
         <field name="arch" type="xml">
             <search string="Admission Search">
+                <field name="application_number"/>
                 <field name="name"/>
-                <field name="roll_number"/>
-                <field name="date_of_birth"/>
-                <field name="class_id"/>
-                <field name="section"/>
-                <field name="parent_contact"/>
+                <field name="applying_for_class_id"/>
+                <field name="entrance_test_score"/>
+                <field name="state"/>
                 <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
                 <filter string="Submitted" name="submitted" domain="[('state','=','submitted')]"/>
-                <separator/>
                 <filter string="Under Review" name="under_review" domain="[('state','=','under review')]"/>
                 <filter string="Approved" name="approved" domain="[('state','=','approved')]"/>
-                <separator/>
+                <filter string="Waitlisted" name="waitlisted" domain="[('state','=','waitlisted')]"/>
                 <filter string="Rejected" name="rejected" domain="[('state','=','rejected')]"/>
-                <filter string="Admitted" name="admitted" domain="[('state','=','admitted')]"/> 
+                <filter string="Admitted" name="admitted" domain="[('state','=','admitted')]"/>
                 <group expand="1" string="Group By">
-                    <filter string="Class" name="class" context="{'group_by':'class_id'}"/>
-                    <filter string="Section" name="section" context="{'group_by':'section'}"/>
+                    <filter string="Applying Class" name="applying_class" context="{'group_by':'applying_for_class_id'}"/>
+                    <filter string="State" name="state_group" context="{'group_by':'state'}"/>
                 </group>
-                <searchpanel>
-                    <field name="class_id" string="Class" enable_counters="1"/>
-                </searchpanel>
             </search>
         </field>
     </record>
@@ -85,11 +117,12 @@
         <field name="name">Admission</field>
         <field name="res_model">student.admission</field>
         <field name="view_mode">tree,form</field>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                No admission records found. Click to create a new admission record.
-            </p>
-        </field>
     </record>
-
+    <record id="action_student_admission_merit" model="ir.actions.act_window">
+        <field name="name">Merit Ranking</field>
+        <field name="res_model">student.admission</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_group_applying_class': 1}</field>
+        <field name="domain">[('entrance_test_score', '!=', False)]</field>
+    </record>
 </odoo>

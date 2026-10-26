@@ -15,11 +15,17 @@
         action="action_student_admission"
         sequence="1"
     />
+    <menuitem id="menu_admission_merit"
+        name="Merit Ranking"
+        parent="menu_school_root"
+        action="action_student_admission_merit"
+        sequence="2"
+    />
     <menuitem id="menu_school_student" 
         name="Students" 
         parent="menu_school_root"
         action="action_school_student"
-        sequence="2"
+        sequence="3"
     />
     <menuitem id="menu_class" 
         name="Classes" 
